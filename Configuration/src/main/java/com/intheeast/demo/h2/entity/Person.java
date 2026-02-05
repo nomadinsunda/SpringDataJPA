@@ -30,10 +30,10 @@ public class Person {
 	private String firstname;
 	private String lastname;
 	
-	@Column(unique = true)
-    @NotEmpty(message = "Email cannot be empty")
-    @Email(message = "Invalid email format")
-    private String email;
+//	@Column(unique = true)
+//    @NotEmpty(message = "Email cannot be empty")
+//    @Email(message = "Invalid email format")
+//    private String email;
 	
 	@Transient
 	private String fullname;
