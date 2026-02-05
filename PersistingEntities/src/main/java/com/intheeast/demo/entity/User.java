@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PostLoad;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Transient;
+import jakarta.persistence.Version;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 
@@ -29,8 +30,8 @@ import lombok.AccessLevel;
 @Entity
 public class User extends AbstractEntity<Long>{
 	
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;   // -->Long getId()...
     private String firstname;
     private String lastname;
     
@@ -38,6 +39,11 @@ public class User extends AbstractEntity<Long>{
     @NotEmpty(message = "Email cannot be empty")
     @Email(message = "Invalid email format")
     private String email;
+    
+    // 충돌 발생시 예외 처리를 통해 충돌 발생을 알 수가 있음.
+    // @Version 어노테이션을 사용함으로써 Optimistic Locking Failure를 알 수 있다는 것!
+    @Version
+    private Long version;
     
 //    @Transient
 //    @Setter(AccessLevel.NONE)

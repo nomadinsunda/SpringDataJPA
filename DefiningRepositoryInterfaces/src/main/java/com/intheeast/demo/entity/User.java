@@ -28,6 +28,7 @@ public class User extends BaseEntity{
 	private Long id; //long (X)
     private String firstname;
     private String lastname;
+    private int age;
     
     @Column(unique = true)
     @NotEmpty(message = "Email cannot be empty")

@@ -17,7 +17,7 @@ import lombok.*;
 @MappedSuperclass
 public abstract class AbstractEntity<ID> implements Persistable<ID> {
 
-    @Transient
+    @Transient // 이 어노테이션이 적용된 필드는 테이블의 컬럼으로 만들어지지 않음
     private boolean isNew = true;  
 
     @Override
