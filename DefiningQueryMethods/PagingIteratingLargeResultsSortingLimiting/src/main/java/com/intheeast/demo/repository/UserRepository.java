@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -18,8 +19,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // lastname을 기준으로 첫 10명의 User를 페이지 형태로 조회
     Page<User> queryFirst10ByLastname(String lastname, Pageable pageable);
     
-    // lastname을 기준으로 상위 3명의 User를 Slice 형태로 조회
-    Slice<User> findTop3ByLastname(String lastname, Pageable pageable);
+    // lastname을 기준으로 User를 Slice 형태로 조회
+    Slice<User> findByLastname(String lastname, Pageable pageable);
     
     // lastname을 기준으로 첫 10명의 User를 Sort를 사용하여 리스트 형태로 조회
     List<User> findFirst10ByLastname(String lastname, Sort sort);
@@ -28,4 +29,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findTop10ByLastname(String lastname, Pageable pageable);
     
     List<User> findByLastname(String lastname, Sort sort, Limit limit);
+    
+ // 대량의 데이터를 메모리에 다 올리지 않고 처리할 때
+    Stream<User> readAllByLastname(String lastname, Sort sort);
 }

@@ -10,9 +10,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class UserService {
@@ -50,8 +52,8 @@ public class UserService {
     }
 
     // lastname을 기준으로 상위 3명의 User를 Slice 형태로 조회
-    public Slice<UserDTO> findTop3ByLastname(String lastname, Pageable pageable) {
-        return userRepository.findTop3ByLastname(lastname, pageable)
+    public Slice<UserDTO> findUsersByLastnameSlice(String lastname, Pageable pageable) {
+        return userRepository.findByLastname(lastname, pageable)
                 .map(UserDTO::fromEntity);
     }
 
@@ -77,11 +79,23 @@ public class UserService {
     	return userRepository.findByLastname(lastname, sort, Limit.of(limit))
     			.stream().map(UserDTO::fromEntity).collect(Collectors.toList());
     	
+    }   
+    
+    /**
+     * [Iterating Large Results]
+     * 대량의 데이터를 Stream으로 조회합니다.
+     * Transactional이 선언되어야 Stream을 소비하는 동안 커넥션이 유지됩니다.
+     */
+    @Transactional(readOnly = true)
+    public void processAllUsersByLastname(String lastname, Sort sort) {
+        try (Stream<User> userStream = userRepository.readAllByLastname(lastname, sort)) {
+            userStream.map(UserDTO::fromEntity)
+                      .forEach(userDto -> {
+                          // 여기서 비즈니스 로직 수행 (예: 대량 이메일 발송, 파일 기록 등)
+                    	  // ...
+                          System.out.println("Processing: " + userDto.getFirstname());
+                      });
+        }
     }
-    
-    
-    
-    
-    
     
 }
