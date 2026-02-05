@@ -1,0 +1,30 @@
+package com.intheeast.demo.entity;
+
+import java.time.LocalDateTime;
+
+import jakarta.persistence.*;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@MappedSuperclass
+//@Entity
+public class BaseEntity {
+	
+	protected String createdBy;
+	
+	@CreationTimestamp
+	protected LocalDateTime creationDate;
+	
+	protected String lastModifiedBy;
+	
+	@UpdateTimestamp
+	protected LocalDateTime lastModifiedDate;
+
+}
