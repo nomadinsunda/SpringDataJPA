@@ -4,6 +4,7 @@ import com.intheeast.demo.dto.UserDTO;
 import com.intheeast.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
@@ -49,9 +50,11 @@ public class UserController {
     //   * 디폴트 값 적용: 만약 쿼리 파라미터가 없다면, 스프링이 설정한 디폴트값(보통 page=0, size=20)을 사용하여 객체를 만듭니다.
     //                 커스텀하고 싶다면 @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable 처럼 어노테이션을 붙일 수 있습니다.
     // lastname을 기준으로 첫 10명의 User를 페이지 형태로 조회
+    // Page 구현체는 PageImpl임.
     @GetMapping("/lastname/queryFirst10")
     public ResponseEntity<Page<UserDTO>> queryFirst10ByLastname(@RequestParam String lastname, 
     		Pageable pageable) {
+    	PageImpl pil;
         Page<UserDTO> users = userService.queryFirst10ByLastname(lastname, pageable);
         return ResponseEntity.ok(users);
     }
@@ -133,8 +136,8 @@ public class UserController {
 		    },
 		    "last": false, // 현재 위치가 처음인지 마지막인지를 알려주는 불리언 값
 		    "totalPages": 5, // 전체 데이터를 페이지당 개수(size)로 나눈 총 페이지 수. (49\10을 올림한 값)
-		    "totalElements": 49, // 조건(Brown 성씨)에 맞는 DB 전체 데이터 수
-		    "first": true, // 현재 위치가 처음인지 마지막인지를 알려주는 불리언 값
+		    "totalElements": 49, // 조건(lastname이 Brown인)에 맞는 DB 전체 데이터 수
+		    "first": true, // 현재 위치가 처음인지 알려주는 불리언 값
 		    "numberOfElements": 10, // 현재 이 응답(content)에 담긴 실제 데이터 개수. 보통 size와 같지만, 마지막 페이지에서는 더 적을 수 있음.
 		    "size": 10, // 한 페이지에 담기로 설정된 최대 데이터 개수
 		    "number": 0, // 현재 페이지 번호입니다. 0부터 시작하므로 실제로는 '1페이지'를 의미

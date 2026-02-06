@@ -18,6 +18,36 @@ public interface UserRepository extends JpaRepository<User, Long> {
     
     // lastname을 기준으로 첫 10명의 User를 페이지 형태로 조회
     Page<User> queryFirst10ByLastname(String lastname, Pageable pageable);
+    /*
+      select
+        u1_0.id,
+        u1_0.active,
+        u1_0.age,
+        u1_0.created_by,
+        u1_0.creation_date,
+        u1_0.firstname,
+        u1_0.last_modified_by,
+        u1_0.last_modified_date,
+        u1_0.lastname 
+    from
+        user u1_0 
+    where
+        u1_0.lastname=? 
+    order by
+        u1_0.id desc 
+    limit
+        ?, ?   --> 의미는 첫번째 ?에 바인딩될 값은 offset 값, 두번째 ?에 바인딩될 값은 limit 값
+ 
+    select
+        count(u1_0.id) 
+    from
+        user u1_0 
+    where
+        u1_0.lastname=? 
+    limit
+        ?  --> limit 절이 붙은 이유는 count 집계 함수의 값은 1 row 이지만, 안전빵으로 하이버네이트가 limit 1을 설정
+
+     */
     
     // lastname을 기준으로 User를 Slice 형태로 조회
     Slice<User> findByLastname(String lastname, Pageable pageable);
@@ -30,6 +60,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     
     List<User> findByLastname(String lastname, Sort sort, Limit limit);
     
- // 대량의 데이터를 메모리에 다 올리지 않고 처리할 때
+    // 대량의 데이터를 메모리에 다 올리지 않고 처리할 때
     Stream<User> readAllByLastname(String lastname, Sort sort);
 }

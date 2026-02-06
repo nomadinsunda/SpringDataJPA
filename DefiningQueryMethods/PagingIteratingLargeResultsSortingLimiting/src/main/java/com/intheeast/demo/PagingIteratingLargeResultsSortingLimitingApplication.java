@@ -17,7 +17,7 @@ import com.intheeast.demo.repository.UserRepository;
 @SpringBootApplication
 public class PagingIteratingLargeResultsSortingLimitingApplication {
 	
-	@Value("${first.names}")
+	@Value("${first.names}") // John,Jane,Alex,Emily,Michael,Sarah,David,Laura,James,Jessica
     private String firstNames;
 
     @Value("${last.names}")
@@ -54,7 +54,6 @@ public class PagingIteratingLargeResultsSortingLimitingApplication {
                 String lastName = lastNameList.get(random.nextInt(lastNameList.size()));
                 Integer age = ageList.get(random.nextInt(ageList.size()));
                 Boolean activeStatus = activeStatusList.get(random.nextInt(activeStatusList.size()));
-
                 
                 users.add(new User(firstName, lastName, age, activeStatus));
             }

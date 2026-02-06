@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.intheeast.demo.domain.User;
 import com.intheeast.demo.dto.UserDTO;
-import com.intheeast.demo.entity.User;
 import com.intheeast.demo.service.UserService;
 
 import java.time.LocalDateTime;
@@ -60,9 +60,14 @@ public class UserController {
 
     
     // 유저 조회 by ID : /users/by-id?id=1
+    @GetMapping("/by-pk")
+    public UserDTO getUserByPk(@RequestParam Long pk) {
+        return userService.findById(pk);
+    }
+    
     @GetMapping("/by-id")
     public UserDTO getUserById(@RequestParam Long id) {
-        return userService.findById(id);
+        return userService.findUserById(id);
     }
 
     // 특정 성을 가진 User 수 카운트
