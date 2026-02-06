@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -68,6 +69,10 @@ public class UserService {
     }
 
 
+    // Propagation propagation() default Propagation.REQUIRED;
+    // 위 트랜잭션 propagation 디폴트 값 설정으로 findByEmail 트랜잭션은 updateUser의 트랜잭션에 포함됨
+    // 그러므로 다음 User 엔티티 클래스 인스턴스의 세터 메서드 호출은 JPA의 Dirty Checking을 수행하게 함으로써,
+    // updateUser 트랜잭션에서 update 쿼리가 수행됨.
     @Transactional
     public void updateUser(String firstname, String lastname, String email, String status) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));

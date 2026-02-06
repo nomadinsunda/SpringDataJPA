@@ -23,7 +23,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	Optional<User> findByEmail(String email);
 	
-    // 파생된 쿼리 메서드
+    // 쿼리 메서드
     List<User> findByFirstnameStartingWith(String prefix);
 
     // SELECT u.id, u.first_name, u.last_name
