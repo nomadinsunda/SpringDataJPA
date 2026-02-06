@@ -24,7 +24,7 @@ import lombok.Setter;
 @Entity
 public class User extends BaseEntity{
 	
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
     private String firstname;
     private String lastname;

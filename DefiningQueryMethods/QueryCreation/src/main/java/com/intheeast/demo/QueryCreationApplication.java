@@ -38,13 +38,31 @@ public class QueryCreationApplication {
             user2.setStatus("world");
             
             User user3 = new User();
-            user3.setFirstname("Kris");
+            user3.setFirstname("james");
             user3.setLastname("Kim");
             user3.setEmail("helloworld@gmail.com");
             user3.setStatus("world");
+            
+            User user4 = new User();
+            user4.setFirstname("james");
+            user4.setLastname("Kim");
+            user4.setEmail("goodworld@gmail.com");
+            user4.setStatus("world");
+            
+            User user5 = new User();
+            user5.setFirstname("Kris");
+            user5.setLastname("choi");
+            user5.setEmail("saygoodbye@gmail.com");
+            user5.setStatus("world");
+            
+            User user6 = new User();
+            user6.setFirstname("Kris");
+            user6.setLastname("choi");
+            user6.setEmail("goodnight@gmail.com");
+            user6.setStatus("world");
 
             // User 객체를 데이터베이스에 삽입
-            userRepository.saveAll(Arrays.asList(user1, user2, user3));
+            userRepository.saveAll(Arrays.asList(user1, user2, user3, user4, user5, user6));
             System.out.println("Users have been inserted.");
         };
     }

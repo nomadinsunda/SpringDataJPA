@@ -15,8 +15,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     long countByLastname(String lastname);
 
     long deleteByEmail(String email); // 이메일로 삭제 메서드 추가
+    
+    long deleteByLastname(String lastname);
 
-    List<User> removeByEmail(String email); // 이메일로 삭제 후 목록 리턴 메서드 추가
+    List<User> removeByLastname(String lastname);
+    //Optional<User> removeByEmail(String email); // 사용할 수 없는 형태의  removeByxxx
 
 	Optional<User> findByEmail(String email);
 	

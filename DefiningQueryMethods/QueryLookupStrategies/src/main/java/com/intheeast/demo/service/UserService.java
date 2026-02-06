@@ -30,15 +30,17 @@ public class UserService {
 
     @Transactional
     public long deleteByEmail(String email) { // 이메일로 삭제하는 메서드 추가
-        return userRepository.deleteByEmail(email);
+//        return userRepository.deleteByEmail(email);
+        return 0;
     }
 
     @Transactional
     public List<UserDTO> removeByEmail(String email) {
-        List<User> users = userRepository.removeByEmail(email);
-        return users.stream()
-                    .map(UserDTO::fromEntity) // User -> UserDTO 변환
-                    .collect(Collectors.toList());
+//        List<User> users = userRepository.removeByEmail(email);
+//        return users.stream()
+//                    .map(UserDTO::fromEntity) // User -> UserDTO 변환
+//                    .collect(Collectors.toList());
+    	return null;
     }
 
     public UserDTO saveUser(User user) {

@@ -9,6 +9,7 @@ import com.intheeast.demo.repository.UserRepository;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,15 +34,22 @@ public class UserService {
     public long deleteByEmail(String email) { // 이메일로 삭제하는 메서드 추가
         return userRepository.deleteByEmail(email);
     }
+    
+    @Transactional
+    public long deleteByLastname(String lastname) { // 이메일로 삭제하는 메서드 추가
+        return userRepository.deleteByLastname(lastname);
+    }
 
     @Transactional
-    public List<UserDTO> removeByEmail(String email) {
-        List<User> users = userRepository.removeByEmail(email);
+    public List<UserDTO> removeByLastname(String lastname) {
+        List<User> users = userRepository.removeByLastname(lastname);
+    
         return users.stream()
                     .map(UserDTO::fromEntity) // User -> UserDTO 변환
                     .collect(Collectors.toList());
     }
 
+    @Transactional
     public UserDTO saveUser(User user) {
         User savedUser = userRepository.save(user);
         return UserDTO.fromEntity(savedUser); // User -> UserDTO 변환

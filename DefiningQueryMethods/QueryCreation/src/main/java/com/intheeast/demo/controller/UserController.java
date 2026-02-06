@@ -34,6 +34,14 @@ public class UserController {
 //        this.userService = userService;
 //    }
 
+	/*
+	 { 
+    	"firstname":"철수",
+    	"lastname":"김",
+    	"email":"XXXXXXXX@gmail.com",
+    	"status":"hello"
+	}
+	 */
     @PostMapping
     public UserDTO createUser(@RequestBody UserDTO userDTO) {
         User user = new User(userDTO.getFirstname(), 
@@ -57,22 +65,27 @@ public class UserController {
         return userService.findById(id);
     }
 
-    // 특정 성을 가진 유저 수 카운트
+    // 특정 성을 가진 User 수 카운트
     @GetMapping("/count/{lastname}")
     public long countUsersByLastname(@PathVariable String lastname) {
         return userService.countByLastname(lastname);
     }
 
     // 특정 email을 가진 유저 삭제
-    @DeleteMapping("/delete/{email}")
-    public long deleteUsersByLastname(@PathVariable String email) {
+    @DeleteMapping("/delete/email")
+    public long deleteUsersByEmail(@RequestParam String email) {
         return userService.deleteByEmail(email);
     }
+    
+    @DeleteMapping("/delete/lastname")
+    public long deleteUsersByLastname(@RequestParam String lastname) {
+        return userService.deleteByLastname(lastname);
+    }
 
-    // 특정 email을 가진 유저 삭제 후 목록 반환
-    @DeleteMapping("/remove/{email}")
-    public List<UserDTO> removeUsersByEmail(@PathVariable String email) {
-        return userService.removeByEmail(email);
+    // 특정 lastname을 가진 유저 삭제 후 목록 반환
+    @DeleteMapping("/remove/{lastname}")
+    public List<UserDTO> removeUsersByLastname(@PathVariable String lastname) {
+    	return userService.removeByLastname(lastname);       
     }
 
     // 유저 업데이트
@@ -110,7 +123,7 @@ public class UserController {
     }
 
     // 성 또는 이름으로 중복 제거된 사용자 검색
-    @GetMapping("/distinct")
+    @GetMapping("/distinct") // /users/distinct?lastname=Doe&firstname=John
     public ResponseEntity<List<UserDTO>> findDistinctUsers(@RequestParam String lastname, @RequestParam String firstname) {
         List<UserDTO> users = userService.findDistinctPeopleByLastnameOrFirstname(lastname, firstname);
         return ResponseEntity.ok(users);
