@@ -5,12 +5,20 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+	
+    Page<User> findByLastname(String lastname, Pageable pageable);
+    
+    @Query("select u from User u where u.lastname = ?1")
+    List<User> findByLastnameAndSort(String lastname, Sort sort);
+
 
     @Query("select u from User u where u.lastname like ?1%")
     List<User> findByAndSort(String lastname, Sort sort);

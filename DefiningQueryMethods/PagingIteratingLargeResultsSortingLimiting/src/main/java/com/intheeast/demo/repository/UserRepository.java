@@ -15,8 +15,18 @@ import java.util.stream.Stream;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+	
+	Page<User> queryByLastname(String lastname, Pageable pageable);
     
     // lastname을 기준으로 첫 10명의 User를 페이지 형태로 조회
+	// First10은 Query Derivation 키워드
+	/*
+	 Spring Data JPA가 인식하는 키워드:
+		First
+        Top
+        First10, Top5, Top100 등을 통해 생성되는 쿼리의
+        limit 10은 Pageable과 무관하게 강제됩니다
+	 */
     Page<User> queryFirst10ByLastname(String lastname, Pageable pageable);
     /*
       select

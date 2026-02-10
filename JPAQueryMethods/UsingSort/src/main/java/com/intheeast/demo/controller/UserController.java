@@ -1,7 +1,10 @@
 package com.intheeast.demo.controller;
 
 import com.intheeast.demo.dto.UserDTO;
+import com.intheeast.demo.entity.User;
 import com.intheeast.demo.service.UserService;
+
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +18,17 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+    
+    @GetMapping("/sorted")
+    public Page<User> sortedUsers() {
+        return userService.getUsersSortedByFirstname();
+    }
+    
+    @GetMapping("/sort/firstname-length")
+    public List<User> getUsersSortedByFirstnameLength() {
+
+        return userService.findUsersSortedByFirstnameLength();
     }
 
     // 특정 성을 가진 사용자 조회 및 정렬

@@ -56,6 +56,7 @@ public class UserController {
     		Pageable pageable) {
     	PageImpl pil;
         Page<UserDTO> users = userService.queryFirst10ByLastname(lastname, pageable);
+//    	Page<UserDTO> users = userService.queryByLastname(lastname, pageable);
         return ResponseEntity.ok(users);
     }
     /*
@@ -153,7 +154,7 @@ public class UserController {
 	 : /api/users/lastname/queryFirst10?lastname=Brown&page=1&size=10&sort=id,desc
      */
 
-    // [Iterating - Slice 반환 (무한 스크롤)]
+    // [Iterating Large Result - Slice 리턴 (무한 스크롤)]
     // lastname을 기준으로 상위 3명의 User를 Slice 형태로 조회
     // /api/users/lastname/slice?lastname=Brown&page=0&size=3
     @GetMapping("/lastname/slice")
@@ -189,18 +190,19 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
-    // [Limiting - List 반환 (Pageable 활용 개수 제한)]
+    // [Limiting - List 리턴 (Pageable 활용 개수 제한)]
     // 메서드 이름에 의한 정적 제한(Top10)과 Pageable에 의한 동적 제한이 공존
     // 기본 테스트 (상위 10명) http://localhost:8080/api/users/lastname/findTop10?lastname=Brown
     // 사이즈를 더 작게 조절 테스트 (상위 5명) http://localhost:8080/api/users/lastname/findTop10?lastname=Brown&size=5
     // 정렬 조건 추가 테스트 (나이가 많은 상위 10명) http://localhost:8080/api/users/lastname/findTop10?lastname=Brown&size=10&sort=age,desc
     // "메서드 이름은 Top10인데, Postman에서 size=5 혹은 size=20을 보내면 어떻게 될까?"
     //  * size=5를 보낼 때: 5개만 나옴. Pageable의 동적 제한이 더 구체적인 요청으로 간주되기 때문.
-    //  * size=20을 보낼 때: 10개만 나옴. 메서드 이름의 Top10이 전체 결과 세트의 최대 한도(Hard Limit) 역할을 하기 때문.
+    //  * size=20을 보낼 때: 10개만 나옴. 메서드 이름의 Top10이 전체 ResultSet의 최대 한도(Hard Limit) 역할을 하기 때문.
     /*
       왜 결과 타입이 Page가 아닌 List인가?
       findTop10...은 이미 결과의 상한선이 정해져 있음.
-      Page 객체는 "전체 개수"를 기반으로 페이지네이션을 하는 용도인데, Top10은 말 그대로 "딱 10개만 관심 있다"는 뜻이므로 
+      Page 객체는 "전체 개수"를 기반으로 페이지네이션을 하는 용도인데, 
+      Top10은 말 그대로 "딱 10개만 관심 있다"는 뜻이므로 
       굳이 무거운 Count 쿼리를 날릴 필요가 없음.
       따라서 보통 TopN 쿼리는 List나 Slice로 반환받는 것이 성능상 유리.
      */
@@ -251,8 +253,9 @@ public class UserController {
         * Stream 방식: DB에서 한 명씩 꺼내서 이메일을 보내고 바로 메모리에서 치웁니다. (메모리 안정성)
      2. 대용량 파일 생성 (엑셀, CSV 다운로드)
         관리자 페이지에서 "전체 회원 목록 다운로드" 버튼을 눌렀을 때를 생각해 보세요.
-        * 회원이 100만 명이면 리스트에 담는 것 자체가 불가능합니다.
-        * 이때 Stream을 열어서 DB에서 한 줄 읽고, 파일에 한 줄 쓰고, 다시 한 줄 읽고 쓰는 방식을 사용합니다. 서버는 메모리를 거의 쓰지 않고도 몇 기가바이트(GB) 짜리 파일을 만들어낼 수 있습니다.
+        * 회원이 100만 명이면 List 구현체에 담는 것 자체가 불가능합니다.
+        * 이때 Stream을 열어서 DB에서 한 줄 읽고, 파일에 한 줄 쓰고, 다시 한 줄 읽고 쓰는 방식을 사용합니다. 
+        * 서버는 메모리를 거의 쓰지 않고도 몇 기가바이트(GB) 짜리 파일을 만들어낼 수 있습니다.
      3. 데이터 마이그레이션 및 변환
         A 테이블에 있는 데이터를 읽어서 가공한 뒤 B 테이블로 옮기거나, 외부 분석 시스템으로 전송해야 할 때 사용합니다.
         * userStream.map(UserDTO::fromEntity).forEach(externalApi::send)

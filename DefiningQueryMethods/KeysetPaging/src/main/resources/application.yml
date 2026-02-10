@@ -24,19 +24,17 @@ spring:
         use_sql_comments: true
         id:
           new_generator_mappings: true
-   
-  config:
-    import: classpath:users.properties  
 
 logging:
-   level:
-     root: INFO
-     com:
-       intheeast:
-         demo: INFO
-     org:
-       hibernate:
-         SQL: DEBUG
-         orm:
-           jdbc:
-             bind: TRACE
+  level:
+    root: INFO
+    com:
+      intheeast:
+        demo: INFO
+    org:
+      hibernate:
+        SQL: DEBUG
+        orm:
+          jdbc:
+            bind: TRACE
+

@@ -50,6 +50,11 @@ public class UserService {
         return userRepository.queryFirst10ByLastname(lastname, pageable)
                 .map(UserDTO::fromEntity);
     }
+    
+    public Page<UserDTO> queryByLastname(String lastname, Pageable pageable) {
+        return userRepository.queryByLastname(lastname, pageable)
+                .map(UserDTO::fromEntity);
+    }
 
     // lastname을 기준으로 상위 3명의 User를 Slice 형태로 조회
     public Slice<UserDTO> findUsersByLastnameSlice(String lastname, Pageable pageable) {
@@ -82,19 +87,25 @@ public class UserService {
     }   
     
     /**
-     * [Iterating Large Results]
+     * [Iterating Large ResultSets]
      * 대량의 데이터를 Stream으로 조회합니다.
-     * Transactional이 선언되어야 Stream을 소비하는 동안 커넥션이 유지됩니다.
+     * Transactional이 선언되어야 Stream을 소비하는 동안 데이터베이스 커넥션이 유지됩니다.
+     * 그리고 ResultSet에 DB 커서를 사용하여 row를 얻어 올 수 있음.
      */
     @Transactional(readOnly = true)
     public void processAllUsersByLastname(String lastname, Sort sort) {
+    	// try with resources
         try (Stream<User> userStream = userRepository.readAllByLastname(lastname, sort)) {
+        	
             userStream.map(UserDTO::fromEntity)
                       .forEach(userDto -> {
                           // 여기서 비즈니스 로직 수행 (예: 대량 이메일 발송, 파일 기록 등)
                     	  // ...
+                    	  // ...
                           System.out.println("Processing: " + userDto.getFirstname());
                       });
+            
+            // userStream.close(); <-- try with resources가 자동으로 close함
         }
     }
     

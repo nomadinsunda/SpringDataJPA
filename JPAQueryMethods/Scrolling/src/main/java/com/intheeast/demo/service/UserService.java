@@ -78,7 +78,14 @@ public class UserService {
         		.startingAt(ScrollPosition.keyset());
 
         List<UserDTO> result = new ArrayList<>();
-        iterator.forEachRemaining(user -> result.add(UserDTO.fromEntity(user)));
+        
+        while (iterator.hasNext()) {
+    	  User u = iterator.next();
+    	  // consume the user
+    	  result.add(UserDTO.fromEntity(u));
+    	}        
+        
+//        iterator.forEachRemaining(user -> result.add(UserDTO.fromEntity(user)));
 
         return result;
     }

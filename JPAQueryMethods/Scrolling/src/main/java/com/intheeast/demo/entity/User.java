@@ -2,10 +2,10 @@ package com.intheeast.demo.entity;
 
 import org.hibernate.annotations.DynamicInsert;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.NamedQuery;
+import jakarta.persistence.*;
+//import jakarta.persistence.GeneratedValue;
+//import jakarta.persistence.Id;
+//import jakarta.persistence.NamedQuery;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,10 +18,13 @@ import lombok.Setter;
 @AllArgsConstructor
 @DynamicInsert
 @Entity
+//@Table(name = "users", indexes = {
+//		 @Index(name = "idx_users_age", columnList = "age")
+//})
 public class User extends BaseEntity{
     
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String firstname;
