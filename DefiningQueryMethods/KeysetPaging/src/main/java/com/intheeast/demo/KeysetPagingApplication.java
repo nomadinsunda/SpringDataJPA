@@ -21,7 +21,7 @@ public class KeysetPagingApplication {
             repository.deleteAll();
 
             // 1000개의 상품 생성
-            for (int i = 1; i <= 100; i++) {
+            for (int i = 1; i <= 10; i++) {
                 Product product = new Product();
                 product.setName("상품 " + i);
                 // 가격을 1000원 단위로 다르게 설정 (중복 가격도 테스트되도록 i / 10 활용)

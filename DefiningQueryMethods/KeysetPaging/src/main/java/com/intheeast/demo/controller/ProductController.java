@@ -30,6 +30,8 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
+    // /api/products
+    // /api/products?cursor=?...
     @GetMapping
     public ResponseEntity<ScrollResponse> list(@RequestParam(required = false) String cursor) {
         return ResponseEntity.ok(productService.getProducts(cursor));

@@ -16,6 +16,21 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
      * 한 번에 20개씩 데이터를 가져오는 Window 메서드.
      */
     Window<Product> findFirst20ByOrderByPriceDescIdDesc(ScrollPosition position);
+    /*
+        select
+		    p1_0.id,
+		    p1_0.name,
+		    p1_0.price 
+	    from
+	        product p1_0 
+	    order by
+	        p1_0.price desc,
+	        p1_0.id desc 
+	    limit
+	        ?, ?
+	        1. ? : OFFSET
+	        2. ? : Limit amount
+     */
     
     // findFirst(Size) 방식으로 limit를 걸고, ScrollPosition으로 위치를 잡습니다.
     Window<Product> findFirst20ByOrderByPriceDescIdDesc(KeysetScrollPosition position);
