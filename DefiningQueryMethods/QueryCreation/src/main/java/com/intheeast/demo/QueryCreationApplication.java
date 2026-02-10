@@ -8,14 +8,22 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.intheeast.demo.entity.Department;
+import com.intheeast.demo.entity.Person;
 import com.intheeast.demo.entity.User;
-import com.intheeast.demo.repository.UserRepository;
+import com.intheeast.demo.repository.*;
 
 @SpringBootApplication
 public class QueryCreationApplication {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private DepartmentRepository depRepository;
+	
+	@Autowired
+	private PersonRepository perRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(QueryCreationApplication.class, args);
@@ -66,5 +74,48 @@ public class QueryCreationApplication {
             System.out.println("Users have been inserted.");
         };
     }
+	
+	@Bean
+    public CommandLineRunner commandLineRunner2() {
+		return args -> {
+			Department department1 = new Department();
+			department1.setName("Biz");
+			
+			Department department2 = new Department();
+			department2.setName("Delivery");
+			
+			depRepository.saveAll(Arrays.asList(department1, department2));
+			
+            Person person1 = new Person();
+            person1.setFirstname("John");
+            person1.setLastname("Doe");
+            person1.setDepartment(department1);
+            
+            Person person2 = new Person();
+            person2.setFirstname("John");
+            person2.setLastname("Doe");
+            person2.setDepartment(department1);
+
+            
+            Person person3 = new Person();
+            person3.setFirstname("John");
+            person3.setLastname("Doe");
+            person3.setDepartment(department2);
+
+            
+            Person person4 = new Person();
+            person4.setFirstname("John");
+            person4.setLastname("Doe");
+            person4.setDepartment(department2);
+
+            
+            Person person5 = new Person();
+            person5.setFirstname("John");
+            person5.setLastname("Doe");
+            person5.setDepartment(department2);
+
+            perRepository.saveAll(Arrays.asList(person1, person2, person3, person4, person5));
+        };
+	}
 
 }

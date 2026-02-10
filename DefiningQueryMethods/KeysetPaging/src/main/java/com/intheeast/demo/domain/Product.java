@@ -1,6 +1,7 @@
 package com.intheeast.demo.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
@@ -40,6 +41,7 @@ public class Product {
     private Long id;
     
     private String name;
+    @NotNull
     private int price;
     
     // Getter, Setter, Constructors...
