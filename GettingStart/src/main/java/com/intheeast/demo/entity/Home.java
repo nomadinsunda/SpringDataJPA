@@ -1,10 +1,12 @@
 package com.intheeast.demo.entity;
 
-
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,21 +16,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@DynamicInsert // ???
-//@DynamicUpdate
+@DynamicInsert
+@DynamicUpdate
 @Entity
-public class Person extends BaseEntity{
-	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Home extends BaseEntity{
+	@Id 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
-	
-	// nullable is true
 	private String name;
-	
-	@Column(
-		length = 20,
-		columnDefinition = "varchar(20) default 'UnKnown'"
-	)
-	private String mobile;
-
 }
