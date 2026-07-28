@@ -7,7 +7,7 @@ import org.springframework.data.repository.Repository;
 
 import com.intheeast.demo.h2.entity.Person;
 
-
+//@Repository
 public interface PersonRepository extends Repository<Person, Long> {
 	
 	Person save(Person person);

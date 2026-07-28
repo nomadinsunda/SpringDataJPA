@@ -28,12 +28,12 @@ public class UserService {
         return userRepository.countByLastname(lastname);
     }
 
-    @Transactional
+    @Transactional(transactionManager="mysqlTransactionManager")
     public long deleteByEmail(String email) { // 이메일로 삭제하는 메서드 추가
         return userRepository.deleteByEmail(email);
     }
 
-    @Transactional
+    @Transactional(transactionManager="mysqlTransactionManager")
     public List<UserDTO> removeByEmail(String email) {
         List<User> users = userRepository.removeByEmail(email);
         return users.stream()
@@ -59,7 +59,7 @@ public class UserService {
     }
 
 
-    @Transactional
+    @Transactional(transactionManager="mysqlTransactionManager")
     public void updateUser(String firstname, String lastname, String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
         user.setFirstname(firstname);

@@ -68,7 +68,7 @@ public class UserController {
     }
 
     // 특정 성을 가진 User 수 카운트
-    @GetMapping("/count/{lastname}")
+    @GetMapping("/count/{lastname}") // /users/count/{}
     public long countUsersByLastname(@PathVariable String lastname) {
         return userService.countByLastname(lastname);
     }
@@ -131,9 +131,17 @@ public class UserController {
         List<UserDTO> users = userService.findByEmailAndLastname(emailAddress, lastname);
         return ResponseEntity.ok(users);
     }
+    
+    // findDistinctPeopleByLastname
+    // 성 또는 이름으로 중복이 제거된 사용자 검색
+    @GetMapping("/distinctlastname") // /users/distinctlastname
+    public ResponseEntity<List<String>> findDistinctUsersLastname() {
+        List<String> users = userService.findDistinctPeopleByLastname();
+        return ResponseEntity.ok(users);
+    }
 
     // 성 또는 이름으로 중복이 제거된 사용자 검색
-    @GetMapping("/distinct") // /users/distinct?lastname=Doe&firstname=John
+    @GetMapping("/distinct") // /users/distinct?lastname=kim&firstname=james
     public ResponseEntity<List<UserDTO>> findDistinctUsers(@RequestParam String lastname, @RequestParam String firstname) {
         List<UserDTO> users = userService.findDistinctPeopleByLastnameOrFirstname(lastname, firstname);
         return ResponseEntity.ok(users);

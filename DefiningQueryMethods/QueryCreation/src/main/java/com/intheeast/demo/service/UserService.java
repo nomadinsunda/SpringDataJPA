@@ -113,6 +113,13 @@ public class UserService {
                 .map(UserDTO::fromEntity)
                 .collect(Collectors.toList());
     }
+    
+    // findDistinctByLastname
+    // 성으로 중복 제거된 사용자 검색
+    public List<String> findDistinctPeopleByLastname() {
+        return userRepository.findDistinctByLastname();
+                
+    }
 
     // 성 또는 이름으로 중복 제거된 사용자 검색
     public List<UserDTO> findDistinctPeopleByLastnameOrFirstname(String lastname, String firstname) {

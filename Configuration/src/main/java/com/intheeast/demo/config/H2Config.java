@@ -44,7 +44,7 @@ public class H2Config {
         em.setDataSource(h2DataSource);
         em.setPackagesToScan("com.intheeast.demo.h2.entity");
         
-        // JPA 제공자 설정
+        // JPA 제공자(구현체) 설정
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
 

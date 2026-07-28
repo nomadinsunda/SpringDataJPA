@@ -1,6 +1,6 @@
 spring:
   application:
-    name: GettingStart
+    name: QueryCreation
     
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

@@ -27,6 +27,7 @@ public class UserDTO {
         if (user == null) {
             return null;
         }
+        
         return new UserDTO(user.getFirstname(), 
         		user.getLastname(),
         		user.getEmail(),

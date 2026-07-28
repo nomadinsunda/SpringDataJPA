@@ -6,13 +6,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import com.intheeast.demo.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    long countByLastname(String lastname);
+    long countByLastname(String lastname); // select count(u) from User u where u.lastname = ?;
 
     long deleteByEmail(String email); // 이메일로 삭제 메서드 추가
     
@@ -21,7 +22,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> removeByLastname(String lastname);
     //Optional<User> removeByEmail(String email); // 사용할 수 없는 형태의  removeByxxx
 
-	Optional<User> findByEmail(String email);
+	Optional<User> findByEmail(String email); // 등록되지 않은 email...
 	
     // 쿼리 메서드
     List<User> findByFirstnameStartingWith(String prefix);
@@ -38,6 +39,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     // 성 또는 이름을 기준으로 중복을 제거한 User 리스트 검색
     List<User> findDistinctByLastnameOrFirstname(String lastname, String firstname);
+    
+    
 
     // 성을 기준으로 대소문자를 무시하고 User 리스트 검색
     List<User> findByLastnameIgnoreCase(String lastname);
@@ -58,5 +61,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     // 이메일에 특정 문자열이 포함된 사용자 검색
     List<User> findByEmailContaining(String keyword);
+    
+    // 성을 기준으로 중복을 제거한 User 리스트 검색
+    @Query("SELECT DISTINCT u.lastname FROM User u") 
+    List<String> findDistinctByLastname(); 
+    
+//    List<String> findDistinctBy(); -> "SELECT DISTINCT u.lastname FROM User u"
+//    
+//    List<String> findDistinctLastname(); -> "SELECT DISTINCT u.lastname FROM User u"
 
 }

@@ -26,7 +26,7 @@ public class ConfigurationApplication {
 	}
 	
 	@Bean
-	public CommandLineRunner runner(PersonRepository repository) {
+	public CommandLineRunner runnerA(PersonRepository repository) {
 		
 		return args -> {
 			Person person = new Person();
@@ -41,7 +41,7 @@ public class ConfigurationApplication {
 	}
 	
 	@Bean
-    public CommandLineRunner commandLineRunner() {
+    public CommandLineRunner runnerB() {
         return args -> {
             // User 객체를 생성하여 데이터베이스에 저장
             User user1 = new User();

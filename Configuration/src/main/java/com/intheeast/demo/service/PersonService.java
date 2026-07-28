@@ -26,7 +26,7 @@ public class PersonService {
     }
    
 
-    @Transactional
+    @Transactional(transactionManager="h2TransactionManager")
     public PersonDTO savePerson(Person person) {
     	Person savedPerson = personRepository.save(person);
         return PersonDTO.fromEntity(savedPerson); 
@@ -45,7 +45,7 @@ public class PersonService {
     }
 
 
-    @Transactional
+    @Transactional(transactionManager="h2TransactionManager")
     public void updatePerson(String firstname, String lastname) {
     	List<Person> persons = personRepository.findByLastname(lastname);
         
